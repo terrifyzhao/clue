@@ -4,7 +4,7 @@ import torch
 import pandas as pd
 from transformers import AdamW
 from sklearn.utils import shuffle
-from annlp import fix_seed, ptm_path, get_device, BertForMultiClassification
+from annlp import fix_seed, ptm_path, get_device, BertForMultiClassification,print_sentence_length
 from trainer import Trainer
 import json
 
@@ -30,6 +30,8 @@ class MyTrainer(Trainer):
                     train_text1.append(j['sentence1'])
                     train_text2.append(j['sentence2'])
 
+        print_sentence_length(train_text1)
+        print_sentence_length(train_text2)
         return self.tokenizer_(train_text1, train_text2), train_label
 
     def get_dev_data(self):
@@ -43,6 +45,7 @@ class MyTrainer(Trainer):
                     dev_label.append(int(j['label']))
                     dev_text1.append(j['sentence1'])
                     dev_text2.append(j['sentence2'])
+
 
         return self.tokenizer_(dev_text1, dev_text2), dev_label
 
